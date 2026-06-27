@@ -1,4 +1,5 @@
 import { llmAgent, pick } from "@guildai/agents-sdk";
+import { GoogleDocsOauthTools } from "@guildai-services/guildlabs~google-docs-oauth";
 import { GoogleSpreadsheetsOauthTools } from "@guildai-services/guildlabs~google-spreadsheets-oauth";
 import { slackTools } from "@guildai-services/guildai~slack";
 
@@ -25,6 +26,13 @@ The Slack message must clearly mark itself as a proposal awaiting human approval
 
 Do not claim final approval has happened. Do not say you updated a source system. This version uses Slack as the human-in-the-loop surface because Guild UI tools are temporarily unavailable.
 
+When the user says the proposal was approved or asks you to proceed after approval:
+1. Create a Google Doc using google_docs_oauth_documents_create. Use a title like "Approved Renewal Risk Plan - {Account Name}".
+2. Use google_docs_oauth_documents_batch_update to insert the approved action plan text into the document.
+3. Construct the Google Doc URL as https://docs.google.com/document/d/{documentId}/edit.
+4. Use slack_conversations_list to find #renewal-risk.
+5. Use slack_chat_post_message to post that the approved plan has been documented, including the Google Doc link.
+
 If the user is not asking for the renewal-risk demo, answer briefly without using tools.
 `;
 
@@ -35,6 +43,10 @@ Reads renewal-risk data from Google Sheets and posts a proposed action plan to S
 export default llmAgent({
   description,
   tools: {
+    ...pick(GoogleDocsOauthTools, [
+      "google_docs_oauth_documents_create",
+      "google_docs_oauth_documents_batch_update",
+    ]),
     ...pick(GoogleSpreadsheetsOauthTools, [
       "google_spreadsheets_oauth_spreadsheets_values_get",
     ]),

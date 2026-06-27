@@ -22,6 +22,7 @@
   "dependencies": {
     "@guildai/agents-sdk": "*",
     "@guildai-services/guildai~slack": "*",
+    "@guildai-services/guildlabs~google-docs-oauth": "*",
     "@guildai-services/guildlabs~google-spreadsheets-oauth": "*",
     "zod": "^4.3.0"
   },
