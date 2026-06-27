@@ -9,3 +9,4 @@ tsconfig.tsbuildinfo
 # Pin dependencies in package.json if you need to do so.
 package-lock.json
 .npmrc
+.guild/cache/
