@@ -1,19 +1,24 @@
-import { llmAgent, userInterfaceTools } from "@guildai/agents-sdk";
+import { llmAgent, pick } from "@guildai/agents-sdk";
+import { slackTools } from "@guildai-services/guildai~slack";
 
 const systemPrompt: string = `
-You are a minimal human-approval test agent.
-Summarize the user's request in one sentence, then use the UI prompt tool to ask whether the user approves that summary.
-After the user responds, call __submit__ with a brief final answer.
+You are a minimal Slack test agent.
+When asked to post a message, use slack_conversations_list to find #renewal-risk, then post a brief hello-world message with slack_chat_post_message.
+If the user is not asking for a Slack post, answer briefly without using tools.
 `;
 
 const description = `
-Minimal agent used to validate Guild human-in-the-loop UI prompts.
+Minimal agent used to validate Guild Slack integration tools.
 `;
 
 export default llmAgent({
   description,
-  tools: userInterfaceTools,
+  tools: {
+    ...pick(slackTools, [
+      "slack_chat_post_message",
+      "slack_conversations_list",
+    ]),
+  },
   systemPrompt,
-  mode: "multi-turn",
   useWorkspaceAgents: false,
 });
