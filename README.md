@@ -1,8 +1,8 @@
 # Renewal Risk Command Center
 
-A Guild agent demo that turns a static renewal-risk spreadsheet into a Slack-based, human-approved workflow.
+A Guild.ai agent demo that turns a static renewal-risk spreadsheet into a Slack-based, human-approved workflow.
 
-The agent reads account health data from Google Sheets, identifies the highest-risk renewal, posts a proposed action plan to Slack, waits for human approval, creates an approved plan in Google Docs, and posts the document link back to Slack.
+The agent reads account health data from Google Sheets (for Demo purposes), identifies the highest-risk renewal, posts a proposed action plan to Slack, waits for human approval, creates an approved plan in Google Docs, and posts the document link back to Slack.
 
 ## Problem
 
