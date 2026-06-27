@@ -1,17 +1,19 @@
-import { llmAgent, noTools } from "@guildai/agents-sdk";
+import { llmAgent, userInterfaceTools } from "@guildai/agents-sdk";
 
 const systemPrompt: string = `
-You are a minimal hello-world test agent.
-Reply briefly and clearly to the user's message.
+You are a minimal human-approval test agent.
+Summarize the user's request in one sentence, then use the UI prompt tool to ask whether the user approves that summary.
+After the user responds, call __submit__ with a brief final answer.
 `;
 
 const description = `
-Minimal hello-world agent used to validate Guild agent save/test.
+Minimal agent used to validate Guild human-in-the-loop UI prompts.
 `;
 
 export default llmAgent({
   description,
-  tools: noTools,
+  tools: userInterfaceTools,
   systemPrompt,
+  mode: "multi-turn",
   useWorkspaceAgents: false,
 });
